@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { 
-  Code, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Github, 
-  Twitter, 
-  Linkedin, 
+import {
+  Code,
+  Mail,
+  Phone,
+  MapPin,
+  Github,
+  Twitter,
+  Linkedin,
   Instagram,
   ExternalLink,
   Heart
@@ -121,10 +121,10 @@ const Footer = () => {
                 </span>
               </div>
               <p className="text-gray-400 mb-6 leading-relaxed">
-                The premier AI/ML hackathon bringing together the brightest minds 
+                The premier AI/ML hackathon bringing together the brightest minds
                 to solve real-world challenges through innovative technology solutions.
               </p>
-              
+
               {/* Social Links */}
               <div className="flex space-x-4">
                 {socialLinks.map((social) => {

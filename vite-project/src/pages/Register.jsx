@@ -11,7 +11,9 @@ import {
   Info
 } from 'lucide-react'
 import toast from 'react-hot-toast'
-import { teamsAPI, statusAPI } from '../services/api'
+import { teamsAPI, statusAPI, userAPI, handleAPIError } from '../services/api'
+import { useAuth } from '../contexts/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -44,6 +46,33 @@ const Register = () => {
       ]
     }
   })
+
+  const { isAuthenticated, user, isAdmin } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    // Check if user is authenticated and is a participant
+    if (isAuthenticated && user && !isAdmin) {
+      const fetchTeam = async () => {
+        try {
+          await userAPI.getMyTeam()
+          // If a team is found, redirect to dashboard
+          toast.success('You have already registered a team. Redirecting to your dashboard.', {
+            duration: 5000,
+          })
+          navigate('/dashboard', { replace: true })
+        } catch (error) {
+          // If no team is found (404), do nothing, let them register
+          if (error.response?.status === 404) {
+            // No team found, continue with registration
+          } else {
+            console.error('Failed to check for existing team:', error)
+          }
+        }
+      }
+      fetchTeam()
+    }
+  }, [isAuthenticated, user, isAdmin, navigate])
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -154,8 +183,8 @@ const Register = () => {
       )
 
     } catch (error) {
-      const message = error.response?.data?.message || 'Registration failed. Please try again.'
-      toast.error(message)
+      const errorMessages = handleAPIError(error)
+      errorMessages.forEach(msg => toast.error(msg))
     } finally {
       setIsSubmitting(false)
     }

@@ -96,6 +96,8 @@ export const statusAPI = {
   get: () => api.get('/status'),
 }
 
+// ... (other exports)
+
 // Utility functions
 export const downloadCSV = (data, filename) => {
   const url = window.URL.createObjectURL(new Blob([data]))
@@ -109,11 +111,12 @@ export const downloadCSV = (data, filename) => {
 }
 
 export const handleAPIError = (error) => {
-  if (error.response?.data?.errors) {
-    // Validation errors
-    return error.response.data.errors.map(err => err.message).join(', ')
+  if (error.response?.data?.errors && Array.isArray(error.response.data.errors)) {
+    // Validation errors - return an array of individual messages
+    return error.response.data.errors.map(err => err.message)
   }
-  return error.response?.data?.message || error.message || 'An error occurred'
+  // Generic error - return a single message in an array
+  return [error.response?.data?.message || error.message || 'An error occurred']
 }
 
 export { api }

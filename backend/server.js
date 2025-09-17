@@ -80,16 +80,15 @@ app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ extended: true, limit: '10mb' }))
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/hackathon', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/hackathon')
 
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 db.once('open', () => {
   console.log('Connected to MongoDB')
 })
+
+
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

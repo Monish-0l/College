@@ -82,7 +82,6 @@ const teamSchema = new mongoose.Schema({
   },
   registrationNumber: {
     type: String,
-    unique: true,
     required: true
   },
   members: {

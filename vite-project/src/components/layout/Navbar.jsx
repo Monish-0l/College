@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Code, Users, Info, UserPlus, Calendar } from 'lucide-react'
+import { useAuth } from '../../contexts/AuthContext'
+import { Menu, X, Code, Users, Info, UserPlus, Calendar, LayoutDashboard } from 'lucide-react'
+
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
   const navigate = useNavigate()
+  const { isAuthenticated, isAdmin } = useAuth()
 
   // Handle scroll effect
   useEffect(() => {
@@ -27,8 +30,13 @@ const Navbar = () => {
   const navigation = [
     { name: 'Home', href: '/', icon: Code },
     { name: 'Details', href: '/details', icon: Info },
-    { name: 'Register', href: '/register', icon: UserPlus },
   ]
+
+  if (isAuthenticated && !isAdmin) {
+    navigation.push({ name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard })
+  } else if (!isAuthenticated) {
+    navigation.push({ name: 'Register', href: '/register', icon: UserPlus })
+  }
 
   const scrollToSection = (sectionId) => {
     if (location.pathname !== '/') {
@@ -55,11 +63,10 @@ const Navbar = () => {
     <>
       {/* Main Navigation */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled 
-            ? 'glass-dark shadow-xl shadow-primary-500/10' 
-            : 'bg-transparent'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
+          ? 'glass-dark shadow-xl shadow-primary-500/10'
+          : 'bg-transparent'
+          }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
@@ -70,8 +77,8 @@ const Navbar = () => {
               transition={{ duration: 0.5 }}
               className="flex-shrink-0"
             >
-              <Link 
-                to="/" 
+              <Link
+                to="/"
                 className="flex items-center space-x-2 group"
                 onClick={() => scrollToSection('hero')}
               >
@@ -103,11 +110,10 @@ const Navbar = () => {
                     >
                       <Link
                         to={item.href}
-                        className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 focus-visible group ${
-                          isActive(item.href)
-                            ? 'text-primary-400 bg-primary-500/10'
-                            : 'text-gray-300 hover:text-white hover:bg-white/10'
-                        }`}
+                        className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 focus-visible group ${isActive(item.href)
+                          ? 'text-primary-400 bg-primary-500/10'
+                          : 'text-gray-300 hover:text-white hover:bg-white/10'
+                          }`}
                       >
                         <Icon className="inline-block w-4 h-4 mr-2" />
                         {item.name}
@@ -187,11 +193,10 @@ const Navbar = () => {
                     <Link
                       key={item.name}
                       to={item.href}
-                      className={`flex items-center px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
-                        isActive(item.href)
-                          ? 'text-primary-400 bg-primary-500/10'
-                          : 'text-gray-300 hover:text-white hover:bg-white/10'
-                      }`}
+                      className={`flex items-center px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${isActive(item.href)
+                        ? 'text-primary-400 bg-primary-500/10'
+                        : 'text-gray-300 hover:text-white hover:bg-white/10'
+                        }`}
                     >
                       <Icon className="w-5 h-5 mr-3" />
                       {item.name}
@@ -219,10 +224,10 @@ const Navbar = () => {
                 {/* CTA Button */}
                 <div className="pt-4 border-t border-gray-700/50">
                   <Link
-                    to="/register"
+                    to={isAuthenticated && !isAdmin ? '/dashboard' : '/register'}
                     className="block w-full btn-primary text-center"
                   >
-                    Register Now
+                    {isAuthenticated && !isAdmin ? 'Go to Dashboard' : 'Register Now'}
                   </Link>
                 </div>
               </div>

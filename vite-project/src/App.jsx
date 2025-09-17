@@ -30,51 +30,58 @@ function App() {
       <div className="min-h-screen bg-gray-950 text-gray-50">
         {/* Skip to main content link for accessibility */}
         <SkipToMain />
-        
+
         {/* Scroll to top on route change */}
         <ScrollToTop />
-        
+
         {/* Navigation - hide on admin routes */}
         {!isAdminRoute && !isAuthRoute && <Navbar />}
-        
+
         {/* Main content with page transitions */}
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
             <Route path="/details" element={<Details />} />
-            <Route path="/register" element={<Register />} />
-            
+            <Route
+              path="/register"
+              element={
+                <ProtectedRoute>
+                  <Register />
+                </ProtectedRoute>
+              }
+            />
+
             {/* Auth Routes */}
             <Route path="/auth/login" element={<Login />} />
             <Route path="/auth/signup" element={<Signup />} />
-            
+
             {/* Protected User Routes */}
-            <Route 
-              path="/dashboard" 
+            <Route
+              path="/dashboard"
               element={
                 <ProtectedRoute>
                   <Dashboard />
                 </ProtectedRoute>
-              } 
+              }
             />
-            
+
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
-            <Route 
-              path="/admin/dashboard" 
+            <Route
+              path="/admin/dashboard"
               element={
                 <ProtectedRoute>
                   <AdminDashboard />
                 </ProtectedRoute>
-              } 
+              }
             />
-            
+
             {/* 404 Page */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AnimatePresence>
-        
+
         {/* Footer - hide on admin routes */}
         {!isAdminRoute && !isAuthRoute && <Footer />}
       </div>
