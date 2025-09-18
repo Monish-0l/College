@@ -6,6 +6,7 @@ import CountdownTimer from '../components/ui/CountDownTimer.jsx'
 import SponsorsCarousel from '../components/sections/SponsorsCarousel'
 import { statusAPI } from '../services/api'
 import { useAuth } from '../contexts/AuthContext'
+import { Parallax } from 'react-parallax'
 
 
 const Home = () => {
@@ -98,12 +99,51 @@ const Home = () => {
       {/* Hero Section */}
       <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Animated background */}
-        <div className="absolute inset-0 gradient-hero">
-          <div className="absolute inset-0 bg-black/20" />
+        <div className="absolute inset-0">
+          {/* Hero Background Image with Parallax */}
+          <div className="absolute inset-0">
+            <img
+              src="https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"
+              alt="Coding workspace"
+              className="w-full h-full object-cover opacity-20"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-900/80 via-purple-900/80 to-blue-900/80" />
+          </div>
         </div>
 
         {/* Animated particles/shapes */}
         <div className="absolute inset-0 overflow-hidden">
+          {/* Floating Code Elements */}
+          <motion.div
+            className="absolute top-20 left-20 w-16 h-16 opacity-10"
+            animate={{ 
+              y: [0, -20, 0],
+              rotate: [0, 10, 0]
+            }}
+            transition={{ duration: 6, repeat: Infinity }}
+          >
+            <img
+              src="https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg?auto=compress&cs=tinysrgb&w=64&h=64&fit=crop"
+              alt="Code"
+              className="w-full h-full object-cover rounded-lg"
+            />
+          </motion.div>
+          
+          <motion.div
+            className="absolute top-40 right-32 w-20 h-20 opacity-10"
+            animate={{ 
+              y: [0, 15, 0],
+              rotate: [0, -10, 0]
+            }}
+            transition={{ duration: 8, repeat: Infinity, delay: 1 }}
+          >
+            <img
+              src="https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&fit=crop"
+              alt="AI Technology"
+              className="w-full h-full object-cover rounded-lg"
+            />
+          </motion.div>
+          
           <motion.div
             className="absolute top-20 left-10 w-20 h-20 bg-primary-500/10 rounded-full blur-xl"
             variants={floatingVariants}
@@ -244,7 +284,16 @@ const Home = () => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 bg-gray-900">
+      <section id="features" className="py-20 bg-gray-900 relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <img
+            src="https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"
+            alt="Technology pattern"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        
         <div className="max-w-6xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -265,22 +314,26 @@ const Home = () => {
               {
                 icon: Zap,
                 title: "Innovation Focus",
-                description: "Work on AI/ML challenges that matter and create solutions with real-world impact."
+                description: "Work on AI/ML challenges that matter and create solutions with real-world impact.",
+                image: "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
               },
               {
                 icon: Users,
                 title: "Expert Mentorship",
-                description: "Learn from industry leaders and get guidance from experienced professionals."
+                description: "Learn from industry leaders and get guidance from experienced professionals.",
+                image: "https://images.pexels.com/photos/1595391/pexels-photo-1595391.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
               },
               {
                 icon: Trophy,
                 title: "Amazing Prizes",
-                description: "Win cash prizes, internships, and recognition from top tech companies."
+                description: "Win cash prizes, internships, and recognition from top tech companies.",
+                image: "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
               },
               {
                 icon: Calendar,
                 title: "3-Day Experience",
-                description: "Immersive hackathon with workshops, networking, and collaborative learning."
+                description: "Immersive hackathon with workshops, networking, and collaborative learning.",
+                image: "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
               }
             ].map((feature, index) => {
               const Icon = feature.icon
@@ -291,8 +344,18 @@ const Home = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="card card-hover text-center group"
+                  className="card card-hover text-center group relative overflow-hidden"
                 >
+                  {/* Feature Image Background */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500">
+                    <img
+                      src={feature.image}
+                      alt={feature.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  
+                  <div className="relative z-10">
                   <div className="mb-6">
                     <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-500/10 group-hover:bg-primary-500/20 transition-colors">
                       <Icon className="w-8 h-8 text-primary-400" />
@@ -300,9 +363,167 @@ const Home = () => {
                   </div>
                   <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
                   <p className="text-gray-400 leading-relaxed">{feature.description}</p>
+                  </div>
                 </motion.div>
               )
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Innovation Showcase Section */}
+      <section className="py-20 bg-gray-950 relative overflow-hidden">
+        <div className="max-w-6xl mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="heading-2 mb-4">Innovation in Action</h2>
+            <p className="body-regular text-gray-400">
+              See what makes our hackathon special
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left side - Images */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.8 }}
+              className="relative"
+            >
+              <div className="grid grid-cols-2 gap-4">
+                <motion.div
+                  whileHover={{ scale: 1.05, rotate: 2 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative overflow-hidden rounded-xl"
+                >
+                  <img
+                    src="https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
+                    alt="AI Development"
+                    className="w-full h-48 object-cover hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute bottom-4 left-4">
+                    <p className="text-white text-sm font-medium">AI Development</p>
+                  </div>
+                </motion.div>
+                
+                <motion.div
+                  whileHover={{ scale: 1.05, rotate: -2 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative overflow-hidden rounded-xl mt-8"
+                >
+                  <img
+                    src="https://images.pexels.com/photos/1181677/pexels-photo-1181677.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
+                    alt="Team Collaboration"
+                    className="w-full h-48 object-cover hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute bottom-4 left-4">
+                    <p className="text-white text-sm font-medium">Team Work</p>
+                  </div>
+                </motion.div>
+                
+                <motion.div
+                  whileHover={{ scale: 1.05, rotate: 1 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative overflow-hidden rounded-xl -mt-4"
+                >
+                  <img
+                    src="https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
+                    alt="Innovation"
+                    className="w-full h-48 object-cover hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute bottom-4 left-4">
+                    <p className="text-white text-sm font-medium">Innovation</p>
+                  </div>
+                </motion.div>
+                
+                <motion.div
+                  whileHover={{ scale: 1.05, rotate: -1 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative overflow-hidden rounded-xl"
+                >
+                  <img
+                    src="https://images.pexels.com/photos/1181316/pexels-photo-1181316.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
+                    alt="Technology"
+                    className="w-full h-48 object-cover hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute bottom-4 left-4">
+                    <p className="text-white text-sm font-medium">Technology</p>
+                  </div>
+                </motion.div>
+              </div>
+              
+              {/* Floating Elements */}
+              <motion.div
+                className="absolute -top-4 -right-4 w-20 h-20 bg-primary-500/20 rounded-full blur-xl"
+                animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+                transition={{ duration: 4, repeat: Infinity }}
+              />
+              <motion.div
+                className="absolute -bottom-4 -left-4 w-16 h-16 bg-secondary-500/20 rounded-full blur-xl"
+                animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.5, 0.2] }}
+                transition={{ duration: 5, repeat: Infinity, delay: 1 }}
+              />
+            </motion.div>
+
+            {/* Right side - Content */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.8 }}
+              className="space-y-6"
+            >
+              <div className="space-y-4">
+                <motion.div
+                  whileHover={{ x: 10 }}
+                  className="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-800/50 transition-colors cursor-pointer"
+                >
+                  <div className="w-12 h-12 bg-primary-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Zap className="w-6 h-6 text-primary-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white mb-1">Cutting-Edge Tech</h3>
+                    <p className="text-gray-400">Work with the latest AI/ML frameworks and tools</p>
+                  </div>
+                </motion.div>
+                
+                <motion.div
+                  whileHover={{ x: 10 }}
+                  className="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-800/50 transition-colors cursor-pointer"
+                >
+                  <div className="w-12 h-12 bg-secondary-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Users className="w-6 h-6 text-secondary-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white mb-1">Collaborative Environment</h3>
+                    <p className="text-gray-400">Connect with like-minded developers and innovators</p>
+                  </div>
+                </motion.div>
+                
+                <motion.div
+                  whileHover={{ x: 10 }}
+                  className="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-800/50 transition-colors cursor-pointer"
+                >
+                  <div className="w-12 h-12 bg-accent-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Trophy className="w-6 h-6 text-accent-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white mb-1">Real Impact</h3>
+                    <p className="text-gray-400">Build solutions that solve actual problems</p>
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -330,7 +551,44 @@ const Home = () => {
       {/* CTA Section */}
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-primary-600 to-secondary-600 relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/20" />
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0">
+          <img
+            src="https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg?auto=compress&cs=tinysrgb&w=1920&h=600&fit=crop"
+            alt="Hackathon atmosphere"
+            className="w-full h-full object-cover opacity-20"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary-600/90 to-secondary-600/90" />
+        </div>
+        
+        {/* Animated Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div
+            className="absolute top-10 left-10 w-2 h-2 bg-white/30 rounded-full"
+            animate={{ 
+              scale: [1, 2, 1],
+              opacity: [0.3, 0.8, 0.3]
+            }}
+            transition={{ duration: 3, repeat: Infinity }}
+          />
+          <motion.div
+            className="absolute top-20 right-20 w-1 h-1 bg-white/40 rounded-full"
+            animate={{ 
+              scale: [1, 3, 1],
+              opacity: [0.2, 0.6, 0.2]
+            }}
+            transition={{ duration: 4, repeat: Infinity, delay: 1 }}
+          />
+          <motion.div
+            className="absolute bottom-10 left-1/3 w-1.5 h-1.5 bg-white/20 rounded-full"
+            animate={{ 
+              scale: [1, 2.5, 1],
+              opacity: [0.1, 0.5, 0.1]
+            }}
+            transition={{ duration: 5, repeat: Infinity, delay: 2 }}
+          />
+        </div>
+        
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
