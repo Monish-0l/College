@@ -259,7 +259,7 @@ const Home = () => {
             </Link>
             <Link
               to="/details"
-              className="btn-outline text-lg px-8 py-4"
+              className="btn-primary text-lg px-8 py-4 glow-primary"
             >
               Learn More
             </Link>
