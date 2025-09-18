@@ -35,7 +35,7 @@ const Home = () => {
   }, [])
 
   // Get hackathon start date from environment variable
-  const hackathonStart = import.meta.env.VITE_HACKATHON_START || '2025-03-15T09:00:00Z'
+  const hackathonStart = import.meta.env.VITE_HACKATHON_START || '2025-09-15T09:00:00Z'
 
   const pageVariants = {
     initial: { opacity: 0 },
@@ -116,7 +116,7 @@ const Home = () => {
           {/* Floating Code Elements */}
           <motion.div
             className="absolute top-20 left-20 w-16 h-16 opacity-10"
-            animate={{ 
+            animate={{
               y: [0, -20, 0],
               rotate: [0, 10, 0]
             }}
@@ -128,10 +128,10 @@ const Home = () => {
               className="w-full h-full object-cover rounded-lg"
             />
           </motion.div>
-          
+
           <motion.div
             className="absolute top-40 right-32 w-20 h-20 opacity-10"
-            animate={{ 
+            animate={{
               y: [0, 15, 0],
               rotate: [0, -10, 0]
             }}
@@ -143,7 +143,7 @@ const Home = () => {
               className="w-full h-full object-cover rounded-lg"
             />
           </motion.div>
-          
+
           <motion.div
             className="absolute top-20 left-10 w-20 h-20 bg-primary-500/10 rounded-full blur-xl"
             variants={floatingVariants}
@@ -180,7 +180,7 @@ const Home = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <span className="block">
+              <span className="block whitespace-nowrap">
                 {'HACK-AI-THON'.split('').map((char, index) => (
                   <motion.span
                     key={index}
@@ -293,7 +293,7 @@ const Home = () => {
             className="w-full h-full object-cover"
           />
         </div>
-        
+
         <div className="max-w-6xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -354,15 +354,15 @@ const Home = () => {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  
+
                   <div className="relative z-10">
-                  <div className="mb-6">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-500/10 group-hover:bg-primary-500/20 transition-colors">
-                      <Icon className="w-8 h-8 text-primary-400" />
+                    <div className="mb-6">
+                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-500/10 group-hover:bg-primary-500/20 transition-colors">
+                        <Icon className="w-8 h-8 text-primary-400" />
+                      </div>
                     </div>
-                  </div>
-                  <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
-                  <p className="text-gray-400 leading-relaxed">{feature.description}</p>
+                    <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
+                    <p className="text-gray-400 leading-relaxed">{feature.description}</p>
                   </div>
                 </motion.div>
               )
@@ -412,7 +412,7 @@ const Home = () => {
                     <p className="text-white text-sm font-medium">AI Development</p>
                   </div>
                 </motion.div>
-                
+
                 <motion.div
                   whileHover={{ scale: 1.05, rotate: -2 }}
                   transition={{ duration: 0.3 }}
@@ -428,7 +428,7 @@ const Home = () => {
                     <p className="text-white text-sm font-medium">Team Work</p>
                   </div>
                 </motion.div>
-                
+
                 <motion.div
                   whileHover={{ scale: 1.05, rotate: 1 }}
                   transition={{ duration: 0.3 }}
@@ -444,7 +444,7 @@ const Home = () => {
                     <p className="text-white text-sm font-medium">Innovation</p>
                   </div>
                 </motion.div>
-                
+
                 <motion.div
                   whileHover={{ scale: 1.05, rotate: -1 }}
                   transition={{ duration: 0.3 }}
@@ -461,7 +461,7 @@ const Home = () => {
                   </div>
                 </motion.div>
               </div>
-              
+
               {/* Floating Elements */}
               <motion.div
                 className="absolute -top-4 -right-4 w-20 h-20 bg-primary-500/20 rounded-full blur-xl"
@@ -496,7 +496,7 @@ const Home = () => {
                     <p className="text-gray-400">Work with the latest AI/ML frameworks and tools</p>
                   </div>
                 </motion.div>
-                
+
                 <motion.div
                   whileHover={{ x: 10 }}
                   className="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-800/50 transition-colors cursor-pointer"
@@ -509,7 +509,7 @@ const Home = () => {
                     <p className="text-gray-400">Connect with like-minded developers and innovators</p>
                   </div>
                 </motion.div>
-                
+
                 <motion.div
                   whileHover={{ x: 10 }}
                   className="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-800/50 transition-colors cursor-pointer"
@@ -560,12 +560,12 @@ const Home = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-primary-600/90 to-secondary-600/90" />
         </div>
-        
+
         {/* Animated Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
             className="absolute top-10 left-10 w-2 h-2 bg-white/30 rounded-full"
-            animate={{ 
+            animate={{
               scale: [1, 2, 1],
               opacity: [0.3, 0.8, 0.3]
             }}
@@ -573,7 +573,7 @@ const Home = () => {
           />
           <motion.div
             className="absolute top-20 right-20 w-1 h-1 bg-white/40 rounded-full"
-            animate={{ 
+            animate={{
               scale: [1, 3, 1],
               opacity: [0.2, 0.6, 0.2]
             }}
@@ -581,14 +581,14 @@ const Home = () => {
           />
           <motion.div
             className="absolute bottom-10 left-1/3 w-1.5 h-1.5 bg-white/20 rounded-full"
-            animate={{ 
+            animate={{
               scale: [1, 2.5, 1],
               opacity: [0.1, 0.5, 0.1]
             }}
             transition={{ duration: 5, repeat: Infinity, delay: 2 }}
           />
         </div>
-        
+
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
