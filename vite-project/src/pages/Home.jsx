@@ -259,7 +259,7 @@ const Home = () => {
               className="absolute top-1/4 left-0"
               animate={{
                 x: [-100, window.innerWidth + 100],
-                y: [0, 50, 0],
+                y: window.innerWidth < 768 ? [0, -10, 0] : [0, -50, 0],
               }}
               transition={{
                 duration: 15,
@@ -271,7 +271,6 @@ const Home = () => {
                 <div className="w-20 h-0.5 bg-gradient-to-r from-yellow-400 to-transparent -translate-x-20 translate-y-1"></div>
               </div>
             </motion.div>
-
 
             {/* Countdown Timer */}
             <motion.div
