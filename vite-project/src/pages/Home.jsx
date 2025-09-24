@@ -259,7 +259,7 @@ const Home = () => {
               className="absolute top-1/4 left-0"
               animate={{
                 x: [-100, window.innerWidth + 100],
-                y: [0, -50, 0],
+                y: [0, 50, 0],
               }}
               transition={{
                 duration: 15,
@@ -385,20 +385,6 @@ const Home = () => {
             </motion.div>
           </motion.div>
         </div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <button
-            onClick={() => scrollToSection('mission')}
-            className="p-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-all duration-200"
-          >
-            <ArrowDown className="w-6 h-6" />
-          </button>
-        </motion.div>
       </section>
 
       {/* Bottom Astronauts Section */}
