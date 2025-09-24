@@ -324,15 +324,45 @@ const Home = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="relative flex justify-center items-center"
           >
-            <p className="text-gray-400 text-sm mb-2">Scroll to explore</p>
-            <motion.button
-              onClick={() => scrollToSection('features')}
-              className="p-2 rounded-full glass hover:bg-white/20 transition-all duration-200"
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
+            {/* Main Astronaut */}
+            <motion.div
+              animate={{
+                y: [-10, 10, -10],
+                rotate: [-2, 2, -2],
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="relative"
             >
-              <ArrowDown className="w-6 h-6 text-primary-400" />
-            </motion.button>
+              <Astronaut size="large" />
+              
+              {/* Prize Badge */}
+              <motion.div
+                className="absolute -top-8 -right-8 bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-bold px-4 py-2 rounded-lg transform rotate-12 shadow-lg"
+                animate={{
+                  rotate: [12, 8, 12],
+                  scale: [1, 1.05, 1],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                }}
+              >
+                <div className="text-xs">$10M</div>
+                <div className="text-xs">IN GLOBAL PRIZES</div>
+              </motion.div>
+
+              {/* Orbit Ring */}
+              <motion.div
+                className="absolute inset-0 border-2 border-blue-400/30 rounded-full"
+                style={{ width: '120%', height: '120%', left: '-10%', top: '-10%' }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              />
+            </motion.div>
           </motion.div>
         </div>
 
