@@ -1,13 +1,11 @@
 import { motion } from 'framer-motion'
-import { ArrowDown, Calendar, Users, Trophy, Zap } from 'lucide-react'
+import { ArrowDown, Calendar, Users, Trophy, Zap, Star, Rocket } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import CountdownTimer from '../components/ui/CountDownTimer.jsx'
 import SponsorsCarousel from '../components/sections/SponsorsCarousel'
 import { statusAPI } from '../services/api'
 import { useAuth } from '../contexts/AuthContext'
-import { Parallax } from 'react-parallax'
-
 
 const Home = () => {
   const [stats, setStats] = useState({
@@ -28,13 +26,10 @@ const Home = () => {
     }
 
     fetchStats()
-
-    // Refresh stats every 30 seconds
     const interval = setInterval(fetchStats, 30000)
     return () => clearInterval(interval)
   }, [])
 
-  // Get hackathon start date from environment variable
   const hackathonStart = import.meta.env.VITE_HACKATHON_START || '2025-09-15T09:00:00Z'
 
   const pageVariants = {
@@ -49,42 +44,87 @@ const Home = () => {
     duration: 0.5
   }
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 }
-    }
-  }
-
-  const floatingVariants = {
-    float: {
-      y: [-10, 10, -10],
-      transition: {
-        duration: 6,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }
-  }
-
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
     }
   }
+
+  // Astronaut SVG Component
+  const Astronaut = ({ className = "", size = "large" }) => {
+    const sizeClasses = {
+      small: "w-24 h-24",
+      medium: "w-32 h-32", 
+      large: "w-64 h-64"
+    }
+    
+    return (
+      <div className={`${sizeClasses[size]} ${className}`}>
+        <svg viewBox="0 0 200 200" className="w-full h-full">
+          {/* Helmet */}
+          <circle cx="100" cy="70" r="35" fill="#E5E7EB" stroke="#9CA3AF" strokeWidth="2"/>
+          <circle cx="100" cy="70" r="30" fill="rgba(255,255,255,0.1)" />
+          
+          {/* Face */}
+          <circle cx="92" cy="65" r="3" fill="#374151"/>
+          <circle cx="108" cy="65" r="3" fill="#374151"/>
+          <path d="M 90 75 Q 100 80 110 75" stroke="#374151" strokeWidth="2" fill="none"/>
+          
+          {/* Body */}
+          <ellipse cx="100" cy="130" rx="25" ry="35" fill="#F3F4F6"/>
+          <rect x="85" y="110" width="30" height="40" rx="15" fill="#E5E7EB"/>
+          
+          {/* Control Panel */}
+          <rect x="90" y="120" width="20" height="15" rx="3" fill="#3B82F6"/>
+          <circle cx="95" cy="127" r="2" fill="#EF4444"/>
+          <circle cx="105" cy="127" r="2" fill="#10B981"/>
+          
+          {/* Arms */}
+          <ellipse cx="70" cy="120" rx="8" ry="20" fill="#E5E7EB" transform="rotate(-20 70 120)"/>
+          <ellipse cx="130" cy="120" rx="8" ry="20" fill="#E5E7EB" transform="rotate(20 130 120)"/>
+          
+          {/* Gloves */}
+          <circle cx="65" cy="135" r="8" fill="#F3F4F6"/>
+          <circle cx="135" cy="135" r="8" fill="#F3F4F6"/>
+          
+          {/* Legs */}
+          <ellipse cx="90" cy="170" rx="8" ry="20" fill="#E5E7EB"/>
+          <ellipse cx="110" cy="170" rx="8" ry="20" fill="#E5E7EB"/>
+          
+          {/* Boots */}
+          <ellipse cx="90" cy="185" rx="10" ry="8" fill="#374151"/>
+          <ellipse cx="110" cy="185" rx="10" ry="8" fill="#374151"/>
+        </svg>
+      </div>
+    )
+  }
+
+  // Planet SVG Component
+  const Planet = ({ className = "", color = "#8B5CF6" }) => (
+    <div className={`w-16 h-16 ${className}`}>
+      <svg viewBox="0 0 64 64" className="w-full h-full">
+        <circle cx="32" cy="32" r="28" fill={color}/>
+        <circle cx="25" cy="25" r="4" fill="rgba(0,0,0,0.2)"/>
+        <circle cx="40" cy="35" r="3" fill="rgba(0,0,0,0.2)"/>
+        <circle cx="30" cy="45" r="2" fill="rgba(0,0,0,0.2)"/>
+        <ellipse cx="32" cy="32" rx="28" ry="8" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2"/>
+      </svg>
+    </div>
+  )
+
+  // Rocket SVG Component
+  const RocketIcon = ({ className = "" }) => (
+    <div className={`w-12 h-12 ${className}`}>
+      <svg viewBox="0 0 48 48" className="w-full h-full">
+        <path d="M24 4 L28 20 L24 44 L20 20 Z" fill="#EF4444"/>
+        <circle cx="24" cy="16" r="4" fill="#3B82F6"/>
+        <path d="M20 20 L16 24 L20 28 Z" fill="#F59E0B"/>
+        <path d="M28 20 L32 24 L28 28 Z" fill="#F59E0B"/>
+        <ellipse cx="24" cy="40" rx="6" ry="4" fill="#F97316"/>
+      </svg>
+    </div>
+  )
 
   return (
     <motion.div
@@ -94,442 +134,362 @@ const Home = () => {
       exit="out"
       variants={pageVariants}
       transition={pageTransition}
-      className="min-h-screen bg-gray-950"
+      className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative overflow-hidden"
     >
-      {/* Hero Section */}
-      <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Animated background */}
-        <div className="absolute inset-0">
-          {/* Hero Background Image with Parallax */}
-          <div className="absolute inset-0">
-            <img
-              src="https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"
-              alt="Coding workspace"
-              className="w-full h-full object-cover opacity-20"
-            />
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-900/80 via-purple-900/80 to-blue-900/80" />
-          </div>
-        </div>
-
-        {/* Animated particles/shapes */}
-        <div className="absolute inset-0 overflow-hidden">
-          {/* Floating Code Elements */}
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Stars */}
+        {[...Array(50)].map((_, i) => (
           <motion.div
-            className="absolute top-20 left-20 w-16 h-16 opacity-10"
-            animate={{
-              y: [0, -20, 0],
-              rotate: [0, 10, 0]
+            key={i}
+            className="absolute w-1 h-1 bg-white rounded-full"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
             }}
-            transition={{ duration: 6, repeat: Infinity }}
-          >
-            <img
-              src="https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg?auto=compress&cs=tinysrgb&w=64&h=64&fit=crop"
-              alt="Code"
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </motion.div>
-
-          <motion.div
-            className="absolute top-40 right-32 w-20 h-20 opacity-10"
             animate={{
-              y: [0, 15, 0],
-              rotate: [0, -10, 0]
+              opacity: [0.3, 1, 0.3],
+              scale: [1, 1.5, 1],
             }}
-            transition={{ duration: 8, repeat: Infinity, delay: 1 }}
-          >
-            <img
-              src="https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&fit=crop"
-              alt="AI Technology"
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </motion.div>
+            transition={{
+              duration: 2 + Math.random() * 3,
+              repeat: Infinity,
+              delay: Math.random() * 2,
+            }}
+          />
+        ))}
 
-          <motion.div
-            className="absolute top-20 left-10 w-20 h-20 bg-primary-500/10 rounded-full blur-xl"
-            variants={floatingVariants}
-            animate="float"
-          />
-          <motion.div
-            className="absolute top-40 right-20 w-32 h-32 bg-secondary-500/10 rounded-full blur-xl"
-            variants={floatingVariants}
-            animate="float"
-            transition={{ delay: 1 }}
-          />
-          <motion.div
-            className="absolute bottom-40 left-1/4 w-24 h-24 bg-accent-500/10 rounded-full blur-xl"
-            variants={floatingVariants}
-            animate="float"
-            transition={{ delay: 2 }}
-          />
-        </div>
+        {/* Floating Planets */}
+        <motion.div
+          className="absolute top-20 right-20"
+          animate={{
+            y: [-10, 10, -10],
+            rotate: [0, 360],
+          }}
+          transition={{
+            y: { duration: 6, repeat: Infinity },
+            rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+          }}
+        >
+          <Planet color="#8B5CF6" />
+        </motion.div>
 
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="relative z-10 max-w-6xl mx-auto px-4 text-center"
+          className="absolute bottom-32 left-16"
+          animate={{
+            y: [10, -10, 10],
+            rotate: [0, -360],
+          }}
+          transition={{
+            y: { duration: 8, repeat: Infinity },
+            rotate: { duration: 25, repeat: Infinity, ease: "linear" },
+          }}
         >
-          {/* Main title with letter-by-letter animation */}
-          <motion.div
-            variants={itemVariants}
-            className="mb-8"
-          >
-            <motion.h1
-              className="heading-1 mb-4"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <span className="block whitespace-nowrap">
-                {'HACK-AI-THON'.split('').map((char, index) => (
-                  <motion.span
-                    key={index}
-                    className="inline-block text-gradient mt-9"
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.5,
-                      delay: 0.5 + index * 0.1,
-                      type: "spring",
-                      damping: 12
-                    }}
-                  >
-                    {char === '-' ? <span className="text-primary-400">{char}</span> : char}
-                  </motion.span>
-                ))}
-              </span>
-            </motion.h1>
-
-            {/* <motion.p
-              className="body-large text-gray-300 max-w-3xl mx-auto"
-              variants={itemVariants}
-            >
-              The premier AI/ML hackathon bringing together brilliant minds to solve 
-              real-world challenges through innovative technology. Join us for 3 days 
-              of coding, learning, and creating the future.
-            </motion.p> */}
-          </motion.div>
-
-          {/* Countdown Timer */}
-          <motion.div variants={itemVariants} className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-semibold text-white mb-6">
-              Event Starts In:
-            </h2>
-            <CountdownTimer
-              targetDate={hackathonStart}
-              size="lg"
-              className="mb-4"
-            />
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            variants={itemVariants}
-            className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-8 mb-12"
-          >
-            <div className="glass px-6 py-4 rounded-lg">
-              <div className="text-2xl font-bold text-primary-400">{stats.totalTeams}</div>
-              <div className="text-gray-400">Teams Registered</div>
-            </div>
-            <div className="glass px-6 py-4 rounded-lg">
-              <div className="text-2xl font-bold text-secondary-400">{stats.remainingSlots}</div>
-              <div className="text-gray-400">Slots Remaining</div>
-            </div>
-            <div className="glass px-6 py-4 rounded-lg">
-              <div className="text-2xl font-bold text-accent-400">72</div>
-              <div className="text-gray-400">Hours of Coding</div>
-            </div>
-          </motion.div>
-
-          {/* CTA Buttons */}
-          <motion.div
-            variants={itemVariants}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
-          >
-            <Link
-              to={isAuthenticated && !isAdmin ? '/dashboard' : '/register'}
-              className="btn-primary text-lg px-8 py-4 glow-primary"
-              disabled={!stats.isOpen}
-            >
-              {isAuthenticated && !isAdmin
-                ? 'Go to Dashboard'
-                : stats.isOpen
-                  ? 'Register Your Team'
-                  : 'Registration Closed'}
-            </Link>
-            <Link
-              to="/details"
-              className="btn-primary text-lg px-8 py-4 glow-primary"
-            >
-              Learn More
-            </Link>
-          </motion.div>
-
-          {/* Scroll indicator */}
-          <motion.div
-            variants={itemVariants}
-            className="flex flex-col items-center"
-          >
-            <p className="text-gray-400 text-sm mb-2">Scroll to explore</p>
-            <motion.button
-              onClick={() => scrollToSection('features')}
-              className="p-2 rounded-full glass hover:bg-white/20 transition-all duration-200"
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              <ArrowDown className="w-6 h-6 text-primary-400" />
-            </motion.button>
-          </motion.div>
+          <Planet color="#EC4899" />
         </motion.div>
-      </section>
 
-      {/* Features Section */}
-      <section id="features" className="py-20 bg-gray-900 relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <img
-            src="https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"
-            alt="Technology pattern"
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        <div className="max-w-6xl mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="heading-2 mb-4">Why HACK-AI-THON?</h2>
-            <p className="body-regular text-gray-400 max-w-3xl mx-auto">
-              Experience the ultimate hackathon with cutting-edge technology,
-              expert mentorship, and exciting opportunities.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                icon: Zap,
-                title: "Innovation Focus",
-                description: "Work on AI/ML challenges that matter and create solutions with real-world impact.",
-                image: "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
-              },
-              {
-                icon: Users,
-                title: "Expert Mentorship",
-                description: "Learn from industry leaders and get guidance from experienced professionals.",
-                image: "https://images.pexels.com/photos/1595391/pexels-photo-1595391.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
-              },
-              {
-                icon: Trophy,
-                title: "Amazing Prizes",
-                description: "Win cash prizes, internships, and recognition from top tech companies.",
-                image: "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
-              },
-              {
-                icon: Calendar,
-                title: "3-Day Experience",
-                description: "Immersive hackathon with workshops, networking, and collaborative learning.",
-                image: "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
-              }
-            ].map((feature, index) => {
-              const Icon = feature.icon
-              return (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="card card-hover text-center group relative overflow-hidden"
-                >
-                  {/* Feature Image Background */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500">
-                    <img
-                      src={feature.image}
-                      alt={feature.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-
-                  <div className="relative z-10">
-                    <div className="mb-6">
-                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-500/10 group-hover:bg-primary-500/20 transition-colors">
-                        <Icon className="w-8 h-8 text-primary-400" />
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
-                    <p className="text-gray-400 leading-relaxed">{feature.description}</p>
-                  </div>
-                </motion.div>
-              )
-            })}
+        {/* Comet */}
+        <motion.div
+          className="absolute top-1/4 left-0"
+          animate={{
+            x: [-100, window.innerWidth + 100],
+            y: [0, -50, 0],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        >
+          <div className="w-2 h-2 bg-yellow-400 rounded-full shadow-lg">
+            <div className="w-20 h-0.5 bg-gradient-to-r from-yellow-400 to-transparent -translate-x-20 translate-y-1"></div>
           </div>
-        </div>
-      </section>
+        </motion.div>
 
-      {/* Innovation Showcase Section */}
-      <section className="py-20 bg-gray-950 relative overflow-hidden">
-        <div className="max-w-6xl mx-auto px-4">
+        {/* Floating Rockets */}
+        <motion.div
+          className="absolute top-1/3 right-1/4"
+          animate={{
+            y: [-20, 20, -20],
+            rotate: [0, 10, -10, 0],
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+          }}
+        >
+          <RocketIcon />
+        </motion.div>
+      </div>
+
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center px-4">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          
+          {/* Left Side - Content */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center lg:text-left space-y-8"
           >
-            <h2 className="heading-2 mb-4">Innovation in Action</h2>
-            <p className="body-regular text-gray-400">
-              See what makes our hackathon special
-            </p>
-          </motion.div>
+            {/* Main Title */}
+            <div>
+              <motion.h1
+                className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                HACK-AI-THON
+              </motion.h1>
+              <motion.p
+                className="text-xl md:text-2xl text-purple-200 mb-8"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                Build the future of AI with innovation.
+              </motion.p>
+            </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left side - Images */}
+            {/* Countdown Timer */}
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.8 }}
-              className="relative"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
             >
-              <div className="grid grid-cols-2 gap-4">
-                <motion.div
-                  whileHover={{ scale: 1.05, rotate: 2 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative overflow-hidden rounded-xl"
-                >
-                  <img
-                    src="https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
-                    alt="AI Development"
-                    className="w-full h-48 object-cover hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                  <div className="absolute bottom-4 left-4">
-                    <p className="text-white text-sm font-medium">AI Development</p>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  whileHover={{ scale: 1.05, rotate: -2 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative overflow-hidden rounded-xl mt-8"
-                >
-                  <img
-                    src="https://images.pexels.com/photos/1181677/pexels-photo-1181677.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
-                    alt="Team Collaboration"
-                    className="w-full h-48 object-cover hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                  <div className="absolute bottom-4 left-4">
-                    <p className="text-white text-sm font-medium">Team Work</p>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  whileHover={{ scale: 1.05, rotate: 1 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative overflow-hidden rounded-xl -mt-4"
-                >
-                  <img
-                    src="https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
-                    alt="Innovation"
-                    className="w-full h-48 object-cover hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                  <div className="absolute bottom-4 left-4">
-                    <p className="text-white text-sm font-medium">Innovation</p>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  whileHover={{ scale: 1.05, rotate: -1 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative overflow-hidden rounded-xl"
-                >
-                  <img
-                    src="https://images.pexels.com/photos/1181316/pexels-photo-1181316.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
-                    alt="Technology"
-                    className="w-full h-48 object-cover hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                  <div className="absolute bottom-4 left-4">
-                    <p className="text-white text-sm font-medium">Technology</p>
-                  </div>
-                </motion.div>
-              </div>
-
-              {/* Floating Elements */}
-              <motion.div
-                className="absolute -top-4 -right-4 w-20 h-20 bg-primary-500/20 rounded-full blur-xl"
-                animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
-                transition={{ duration: 4, repeat: Infinity }}
-              />
-              <motion.div
-                className="absolute -bottom-4 -left-4 w-16 h-16 bg-secondary-500/20 rounded-full blur-xl"
-                animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.5, 0.2] }}
-                transition={{ duration: 5, repeat: Infinity, delay: 1 }}
+              <h2 className="text-2xl md:text-3xl font-semibold text-white mb-6">
+                Event Starts In:
+              </h2>
+              <CountdownTimer
+                targetDate={hackathonStart}
+                size="lg"
+                className="mb-8"
               />
             </motion.div>
 
-            {/* Right side - Content */}
+            {/* Stats Cards */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="grid grid-cols-3 gap-4 mb-8"
+            >
+              <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 text-center border border-white/20">
+                <div className="text-2xl font-bold text-cyan-400">{stats.totalTeams}</div>
+                <div className="text-purple-200 text-sm">Teams Registered</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 text-center border border-white/20">
+                <div className="text-2xl font-bold text-green-400">{stats.remainingSlots}</div>
+                <div className="text-purple-200 text-sm">Slots Remaining</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 text-center border border-white/20">
+                <div className="text-2xl font-bold text-yellow-400">72</div>
+                <div className="text-purple-200 text-sm">Hours of Coding</div>
+              </div>
+            </motion.div>
+
+            {/* CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.0 }}
+              className="flex flex-col sm:flex-row gap-4"
+            >
+              <Link
+                to={isAuthenticated && !isAdmin ? '/dashboard' : '/register'}
+                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                disabled={!stats.isOpen}
+              >
+                {isAuthenticated && !isAdmin
+                  ? 'Go to Dashboard'
+                  : stats.isOpen
+                    ? 'Register to Join'
+                    : 'Registration Closed'}
+              </Link>
+              <Link
+                to="/details"
+                className="bg-transparent border-2 border-white/30 hover:bg-white/10 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 backdrop-blur-sm"
+              >
+                Join Builder Chat
+              </Link>
+            </motion.div>
+          </motion.div>
+
+          {/* Right Side - Main Astronaut with Prize */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="relative flex justify-center items-center"
+          >
+            {/* Main Astronaut */}
+            <motion.div
+              animate={{
+                y: [-10, 10, -10],
+                rotate: [-2, 2, -2],
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="relative"
+            >
+              <Astronaut size="large" />
+              
+              {/* Prize Badge */}
+              <motion.div
+                className="absolute -top-8 -right-8 bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-bold px-4 py-2 rounded-lg transform rotate-12 shadow-lg"
+                animate={{
+                  rotate: [12, 8, 12],
+                  scale: [1, 1.05, 1],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                }}
+              >
+                <div className="text-xs">$10M</div>
+                <div className="text-xs">IN GLOBAL PRIZES</div>
+              </motion.div>
+
+              {/* Orbit Ring */}
+              <motion.div
+                className="absolute inset-0 border-2 border-blue-400/30 rounded-full"
+                style={{ width: '120%', height: '120%', left: '-10%', top: '-10%' }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              />
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          <button
+            onClick={() => scrollToSection('mission')}
+            className="p-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-all duration-200"
+          >
+            <ArrowDown className="w-6 h-6" />
+          </button>
+        </motion.div>
+      </section>
+
+      {/* Bottom Astronauts Section */}
+      <section id="mission" className="relative py-20">
+        <div className="max-w-7xl mx-auto px-4">
+          
+          {/* Mission Statement */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 mb-8">
+              OUR MISSION IS TO<br />
+              EMPOWER PARTICIPANTS<br />
+              TO SHAPE THE FUTURE OF<br />
+              ARTIFICIAL INTELLIGENCE
+            </h2>
+          </motion.div>
+
+          {/* Bottom Astronauts */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            
+            {/* Left Astronaut with Laptop */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="flex justify-center"
+            >
+              <motion.div
+                animate={{
+                  y: [-5, 5, -5],
+                  rotate: [-1, 1, -1],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                }}
+                className="relative"
+              >
+                <Astronaut size="medium" />
+                {/* Laptop */}
+                <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+                  <div className="w-16 h-10 bg-gray-800 rounded-t-lg border-2 border-gray-600">
+                    <div className="w-full h-6 bg-blue-500 rounded-t-md flex items-center justify-center">
+                      <div className="text-xs text-white font-mono">CODE</div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Astronaut on Moon */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="space-y-6"
+              className="flex justify-center relative"
             >
-              <div className="space-y-4">
-                <motion.div
-                  whileHover={{ x: 10 }}
-                  className="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-800/50 transition-colors cursor-pointer"
-                >
-                  <div className="w-12 h-12 bg-primary-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Zap className="w-6 h-6 text-primary-400" />
+              <motion.div
+                animate={{
+                  y: [5, -5, 5],
+                  rotate: [1, -1, 1],
+                }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                }}
+                className="relative"
+              >
+                {/* Moon Surface */}
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-32 h-16 bg-gray-400 rounded-full opacity-80"></div>
+                <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-12 bg-gray-500 rounded-full opacity-60"></div>
+                
+                <Astronaut size="medium" />
+                
+                {/* Flag */}
+                <div className="absolute -top-4 right-4">
+                  <div className="w-0.5 h-12 bg-gray-300"></div>
+                  <div className="absolute top-0 left-0.5 w-8 h-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs flex items-center justify-center font-bold">
+                    AI
                   </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white mb-1">Cutting-Edge Tech</h3>
-                    <p className="text-gray-400">Work with the latest AI/ML frameworks and tools</p>
-                  </div>
-                </motion.div>
+                </div>
+              </motion.div>
 
-                <motion.div
-                  whileHover={{ x: 10 }}
-                  className="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-800/50 transition-colors cursor-pointer"
-                >
-                  <div className="w-12 h-12 bg-secondary-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Users className="w-6 h-6 text-secondary-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white mb-1">Collaborative Environment</h3>
-                    <p className="text-gray-400">Connect with like-minded developers and innovators</p>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  whileHover={{ x: 10 }}
-                  className="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-800/50 transition-colors cursor-pointer"
-                >
-                  <div className="w-12 h-12 bg-accent-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Trophy className="w-6 h-6 text-accent-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white mb-1">Real Impact</h3>
-                    <p className="text-gray-400">Build solutions that solve actual problems</p>
-                  </div>
-                </motion.div>
-              </div>
+              {/* Floating Planet nearby */}
+              <motion.div
+                className="absolute top-8 right-8"
+                animate={{
+                  y: [-8, 8, -8],
+                  rotate: [0, 360],
+                }}
+                transition={{
+                  y: { duration: 4, repeat: Infinity },
+                  rotate: { duration: 15, repeat: Infinity, ease: "linear" },
+                }}
+              >
+                <Planet color="#F59E0B" className="w-12 h-12" />
+              </motion.div>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Sponsors Section */}
-      <section id="sponsors" className="py-20 bg-gray-950">
+      <section id="sponsors" className="py-20 bg-black/20 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -538,89 +498,10 @@ const Home = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="heading-2 mb-4">Our Amazing Sponsors</h2>
-            <p className="body-regular text-gray-400">
-              Powered by industry-leading companies supporting innovation
-            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">WITH SUPPORT FROM</h2>
           </motion.div>
 
           <SponsorsCarousel />
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-primary-600 to-secondary-600 relative overflow-hidden">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0">
-          <img
-            src="https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg?auto=compress&cs=tinysrgb&w=1920&h=600&fit=crop"
-            alt="Hackathon atmosphere"
-            className="w-full h-full object-cover opacity-20"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary-600/90 to-secondary-600/90" />
-        </div>
-
-        {/* Animated Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <motion.div
-            className="absolute top-10 left-10 w-2 h-2 bg-white/30 rounded-full"
-            animate={{
-              scale: [1, 2, 1],
-              opacity: [0.3, 0.8, 0.3]
-            }}
-            transition={{ duration: 3, repeat: Infinity }}
-          />
-          <motion.div
-            className="absolute top-20 right-20 w-1 h-1 bg-white/40 rounded-full"
-            animate={{
-              scale: [1, 3, 1],
-              opacity: [0.2, 0.6, 0.2]
-            }}
-            transition={{ duration: 4, repeat: Infinity, delay: 1 }}
-          />
-          <motion.div
-            className="absolute bottom-10 left-1/3 w-1.5 h-1.5 bg-white/20 rounded-full"
-            animate={{
-              scale: [1, 2.5, 1],
-              opacity: [0.1, 0.5, 0.1]
-            }}
-            transition={{ duration: 5, repeat: Infinity, delay: 2 }}
-          />
-        </div>
-
-        <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="heading-2 mb-6">Ready to Build the Future?</h2>
-            <p className="body-large mb-8 opacity-90">
-              Join hundreds of developers, designers, and innovators in the most
-              exciting AI/ML hackathon of the year. Registration closes soon!
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to={isAuthenticated && !isAdmin ? '/dashboard' : '/register'}
-                className="btn-glass text-lg px-8 py-4"
-                disabled={!stats.isOpen}
-              >
-                {isAuthenticated && !isAdmin
-                  ? 'Go to Dashboard'
-                  : stats.isOpen
-                    ? 'Register Now'
-                    : 'Registration Closed'}
-              </Link>
-              <Link
-                to="/details"
-                className="btn-outline border-white text-white hover:bg-white hover:text-primary-600 text-lg px-8 py-4"
-              >
-                View Schedule
-              </Link>
-            </div>
-          </motion.div>
         </div>
       </section>
     </motion.div>
