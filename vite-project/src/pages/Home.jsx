@@ -55,46 +55,46 @@ const Home = () => {
   const Astronaut = ({ className = "", size = "large" }) => {
     const sizeClasses = {
       small: "w-24 h-24",
-      medium: "w-32 h-32", 
+      medium: "w-32 h-32",
       large: "w-64 h-64"
     }
-    
+
     return (
       <div className={`${sizeClasses[size]} ${className}`}>
         <svg viewBox="0 0 200 200" className="w-full h-full">
           {/* Helmet */}
-          <circle cx="100" cy="70" r="35" fill="#E5E7EB" stroke="#9CA3AF" strokeWidth="2"/>
+          <circle cx="100" cy="70" r="35" fill="#E5E7EB" stroke="#9CA3AF" strokeWidth="2" />
           <circle cx="100" cy="70" r="30" fill="rgba(255,255,255,0.1)" />
-          
+
           {/* Face */}
-          <circle cx="92" cy="65" r="3" fill="#374151"/>
-          <circle cx="108" cy="65" r="3" fill="#374151"/>
-          <path d="M 90 75 Q 100 80 110 75" stroke="#374151" strokeWidth="2" fill="none"/>
-          
+          <circle cx="92" cy="65" r="3" fill="#374151" />
+          <circle cx="108" cy="65" r="3" fill="#374151" />
+          <path d="M 90 75 Q 100 80 110 75" stroke="#374151" strokeWidth="2" fill="none" />
+
           {/* Body */}
-          <ellipse cx="100" cy="130" rx="25" ry="35" fill="#F3F4F6"/>
-          <rect x="85" y="110" width="30" height="40" rx="15" fill="#E5E7EB"/>
-          
+          <ellipse cx="100" cy="130" rx="25" ry="35" fill="#F3F4F6" />
+          <rect x="85" y="110" width="30" height="40" rx="15" fill="#E5E7EB" />
+
           {/* Control Panel */}
-          <rect x="90" y="120" width="20" height="15" rx="3" fill="#3B82F6"/>
-          <circle cx="95" cy="127" r="2" fill="#EF4444"/>
-          <circle cx="105" cy="127" r="2" fill="#10B981"/>
-          
+          <rect x="90" y="120" width="20" height="15" rx="3" fill="#3B82F6" />
+          <circle cx="95" cy="127" r="2" fill="#EF4444" />
+          <circle cx="105" cy="127" r="2" fill="#10B981" />
+
           {/* Arms */}
-          <ellipse cx="70" cy="120" rx="8" ry="20" fill="#E5E7EB" transform="rotate(-20 70 120)"/>
-          <ellipse cx="130" cy="120" rx="8" ry="20" fill="#E5E7EB" transform="rotate(20 130 120)"/>
-          
+          <ellipse cx="70" cy="120" rx="8" ry="20" fill="#E5E7EB" transform="rotate(-20 70 120)" />
+          <ellipse cx="130" cy="120" rx="8" ry="20" fill="#E5E7EB" transform="rotate(20 130 120)" />
+
           {/* Gloves */}
-          <circle cx="65" cy="135" r="8" fill="#F3F4F6"/>
-          <circle cx="135" cy="135" r="8" fill="#F3F4F6"/>
-          
+          <circle cx="65" cy="135" r="8" fill="#F3F4F6" />
+          <circle cx="135" cy="135" r="8" fill="#F3F4F6" />
+
           {/* Legs */}
-          <ellipse cx="90" cy="170" rx="8" ry="20" fill="#E5E7EB"/>
-          <ellipse cx="110" cy="170" rx="8" ry="20" fill="#E5E7EB"/>
-          
+          <ellipse cx="90" cy="170" rx="8" ry="20" fill="#E5E7EB" />
+          <ellipse cx="110" cy="170" rx="8" ry="20" fill="#E5E7EB" />
+
           {/* Boots */}
-          <ellipse cx="90" cy="185" rx="10" ry="8" fill="#374151"/>
-          <ellipse cx="110" cy="185" rx="10" ry="8" fill="#374151"/>
+          <ellipse cx="90" cy="185" rx="10" ry="8" fill="#374151" />
+          <ellipse cx="110" cy="185" rx="10" ry="8" fill="#374151" />
         </svg>
       </div>
     )
@@ -104,11 +104,11 @@ const Home = () => {
   const Planet = ({ className = "", color = "#8B5CF6" }) => (
     <div className={`w-16 h-16 ${className}`}>
       <svg viewBox="0 0 64 64" className="w-full h-full">
-        <circle cx="32" cy="32" r="28" fill={color}/>
-        <circle cx="25" cy="25" r="4" fill="rgba(0,0,0,0.2)"/>
-        <circle cx="40" cy="35" r="3" fill="rgba(0,0,0,0.2)"/>
-        <circle cx="30" cy="45" r="2" fill="rgba(0,0,0,0.2)"/>
-        <ellipse cx="32" cy="32" rx="28" ry="8" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2"/>
+        <circle cx="32" cy="32" r="28" fill={color} />
+        <circle cx="25" cy="25" r="4" fill="rgba(0,0,0,0.2)" />
+        <circle cx="40" cy="35" r="3" fill="rgba(0,0,0,0.2)" />
+        <circle cx="30" cy="45" r="2" fill="rgba(0,0,0,0.2)" />
+        <ellipse cx="32" cy="32" rx="28" ry="8" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" />
       </svg>
     </div>
   )
@@ -117,11 +117,11 @@ const Home = () => {
   const RocketIcon = ({ className = "" }) => (
     <div className={`w-12 h-12 ${className}`}>
       <svg viewBox="0 0 48 48" className="w-full h-full">
-        <path d="M24 4 L28 20 L24 44 L20 20 Z" fill="#EF4444"/>
-        <circle cx="24" cy="16" r="4" fill="#3B82F6"/>
-        <path d="M20 20 L16 24 L20 28 Z" fill="#F59E0B"/>
-        <path d="M28 20 L32 24 L28 28 Z" fill="#F59E0B"/>
-        <ellipse cx="24" cy="40" rx="6" ry="4" fill="#F97316"/>
+        <path d="M24 4 L28 20 L24 44 L20 20 Z" fill="#EF4444" />
+        <circle cx="24" cy="16" r="4" fill="#3B82F6" />
+        <path d="M20 20 L16 24 L20 28 Z" fill="#F59E0B" />
+        <path d="M28 20 L32 24 L28 28 Z" fill="#F59E0B" />
+        <ellipse cx="24" cy="40" rx="6" ry="4" fill="#F97316" />
       </svg>
     </div>
   )
@@ -225,7 +225,7 @@ const Home = () => {
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-4">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          
+
           {/* Left Side - Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -233,10 +233,12 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             className="text-center lg:text-left space-y-8"
           >
+
             {/* Main Title */}
             <div>
+
               <motion.h1
-                className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4"
+                className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 whitespace-nowrap"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -244,7 +246,7 @@ const Home = () => {
                 HACK-AI-THON
               </motion.h1>
               <motion.p
-                className="text-xl md:text-2xl text-purple-200 mb-8"
+                className="text-xs md:text-xs text-purple-200 mb-8"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
@@ -252,6 +254,24 @@ const Home = () => {
                 Build the future of AI with innovation.
               </motion.p>
             </div>
+            {/* Comet */}
+            <motion.div
+              className="absolute top-1/4 left-0"
+              animate={{
+                x: [-100, window.innerWidth + 100],
+                y: [0, -50, 0],
+              }}
+              transition={{
+                duration: 15,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            >
+              <div className="w-2 h-2 bg-yellow-400 rounded-full shadow-lg">
+                <div className="w-20 h-0.5 bg-gradient-to-r from-yellow-400 to-transparent -translate-x-20 translate-y-1"></div>
+              </div>
+            </motion.div>
+
 
             {/* Countdown Timer */}
             <motion.div
@@ -338,7 +358,7 @@ const Home = () => {
               className="relative"
             >
               <Astronaut size="large" />
-              
+
               {/* Prize Badge */}
               <motion.div
                 className="absolute -top-8 -right-8 bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-bold px-4 py-2 rounded-lg transform rotate-12 shadow-lg"
@@ -384,7 +404,7 @@ const Home = () => {
       {/* Bottom Astronauts Section */}
       <section id="mission" className="relative py-20">
         <div className="max-w-7xl mx-auto px-4">
-          
+
           {/* Mission Statement */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -403,7 +423,7 @@ const Home = () => {
 
           {/* Bottom Astronauts */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-            
+
             {/* Left Astronaut with Laptop */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -457,9 +477,9 @@ const Home = () => {
                 {/* Moon Surface */}
                 <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-32 h-16 bg-gray-400 rounded-full opacity-80"></div>
                 <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-12 bg-gray-500 rounded-full opacity-60"></div>
-                
+
                 <Astronaut size="medium" />
-                
+
                 {/* Flag */}
                 <div className="absolute -top-4 right-4">
                   <div className="w-0.5 h-12 bg-gray-300"></div>
