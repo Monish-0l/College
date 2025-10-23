@@ -114,7 +114,7 @@ const Navbar = () => {
 
               {/* Download PPT Template Button */}
               <motion.a
-                href="/path/to/your/template.pptx" // *** Replace with the actual path to your PPT file ***
+                href="/template.pptx" // *** Replace with the actual path to your PPT file ***
                 download="Hackathon_Template.pptx" // *** Optional: Specify the filename for the download ***
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
