@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
-import { Menu, X, Code, Info, LayoutDashboard, Download } from 'lucide-react'; 
+import { Menu, X, Code, Info, LayoutDashboard, Download } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +16,6 @@ const Navbar = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -26,7 +25,6 @@ const Navbar = () => {
     setIsOpen(false);
   }, [location]);
 
-  // Updated navigation array
   const navigation = [
     { name: 'Home', href: '/', icon: Code },
     { name: 'Details', href: '/details', icon: Info },
@@ -36,9 +34,12 @@ const Navbar = () => {
     navigation.push({ name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard });
   }
 
-  // Removed scrollToSection as Schedule and Sponsors are removed
-
   const isActive = (path) => location.pathname === path;
+
+  // --- **MODIFIED**: Define the direct download URL ---
+  const pptDownloadUrl = "https://collegefrontend-psi.vercel.app/template.pptx";
+  // --- **END MODIFICATION** ---
+
 
   return (
     <>
@@ -59,11 +60,7 @@ const Navbar = () => {
               transition={{ duration: 0.5 }}
               className="flex-shrink-0"
             >
-              <Link
-                to="/"
-                className="flex items-center space-x-2 group"
-                // onClick={() => scrollToSection('hero')} // Removed onClick
-              >
+              <Link to="/" className="flex items-center space-x-2 group">
                 <div className="relative">
                   <Code className="h-8 w-8 text-primary-500 group-hover:text-primary-400 transition-colors" />
                   <motion.div
@@ -112,10 +109,12 @@ const Navbar = () => {
                 );
               })}
 
-              {/* Download PPT Template Button */}
+              {/* --- **MODIFIED**: Download PPT Template Button --- */}
               <motion.a
-                href="/template.pptx" // *** Replace with the actual path to your PPT file ***
-                download="Hackathon_Template.pptx" // *** Optional: Specify the filename for the download ***
+                href={pptDownloadUrl} // Use the defined URL
+                target="_blank"        // Open in a new tab
+                rel="noopener noreferrer" // Security for target="_blank"
+                // download attribute removed
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: navigation.length * 0.1 }}
@@ -124,6 +123,7 @@ const Navbar = () => {
                 <Download className="inline-block w-4 h-4 mr-2" />
                 PPT Template
               </motion.a>
+              {/* --- **END MODIFICATION** --- */}
             </div>
 
             {/* Mobile menu button */}
@@ -166,7 +166,7 @@ const Navbar = () => {
                           ? 'text-primary-400 bg-primary-500/10'
                           : 'text-gray-300 hover:text-white hover:bg-white/10'
                       }`}
-                      onClick={() => setIsOpen(false)} // Close menu on link click
+                      onClick={() => setIsOpen(false)}
                     >
                       <Icon className="w-5 h-5 mr-3" />
                       {item.name}
@@ -174,23 +174,26 @@ const Navbar = () => {
                   );
                 })}
 
-                {/* Mobile Download PPT Template Link */}
+                {/* --- **MODIFIED**: Mobile Download PPT Template Link --- */}
                  <a
-                  href="/path/to/your/template.pptx" // *** Replace with the actual path ***
-                  download="Hackathon_Template.pptx" // *** Optional: Specify filename ***
+                  href={pptDownloadUrl} // Use the defined URL
+                  target="_blank"        // Open in a new tab
+                  rel="noopener noreferrer" // Security for target="_blank"
+                  // download attribute removed
                   className="flex items-center w-full px-4 py-3 rounded-lg text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-200"
-                  onClick={() => setIsOpen(false)} // Close menu on link click
+                  onClick={() => setIsOpen(false)}
                 >
                   <Download className="w-5 h-5 mr-3" />
                   Download PPT Template
                 </a>
+                 {/* --- **END MODIFICATION** --- */}
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </nav>
 
-      {/* Spacer to prevent content from going under fixed navbar */}
+      {/* Spacer */}
       <div className="h-16 lg:h-20" />
     </>
   );
