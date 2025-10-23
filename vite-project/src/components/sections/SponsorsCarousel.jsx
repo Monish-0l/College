@@ -1,21 +1,26 @@
-import { motion } from 'framer-motion'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay, Pagination, Navigation } from 'swiper/modules'
-import { ExternalLink } from 'lucide-react'
-import { sponsors, getSponsorsByTier } from '../../data/sponsors'
+import { motion } from 'framer-motion';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import { ExternalLink } from 'lucide-react';
+// Ensure this import path is correct and getSponsorsByTier works as expected
+import { sponsors, getSponsorsByTier } from '../../data/sponsors';
 
 // Import Swiper styles
-import 'swiper/css'
-import 'swiper/css/pagination'
-import 'swiper/css/navigation'
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 const SponsorsCarousel = () => {
+  // *** THIS IS THE IMPORTANT PART ***
+  // Only Platinum and Gold should be listed here
   const sponsorTiers = [
     { tier: 'platinum', title: 'Platinum Sponsors', color: 'text-gray-300' },
     { tier: 'gold', title: 'Gold Sponsors', color: 'text-yellow-400' },
-    { tier: 'silver', title: 'Silver Sponsors', color: 'text-gray-400' },
-    { tier: 'bronze', title: 'Bronze Sponsors', color: 'text-orange-600' }
-  ]
+    // Silver and Bronze should be removed or commented out like below
+    // { tier: 'silver', title: 'Silver Sponsors', color: 'text-gray-400' },
+    // { tier: 'bronze', title: 'Bronze Sponsors', color: 'text-orange-600' }
+  ];
+  // *** END OF IMPORTANT PART ***
 
   const SponsorCard = ({ sponsor }) => (
     <motion.div
@@ -42,14 +47,15 @@ const SponsorsCarousel = () => {
         </div>
       </a>
     </motion.div>
-  )
+  );
 
   return (
     <div className="space-y-12">
       {sponsorTiers.map(({ tier, title, color }) => {
-        const tierSponsors = getSponsorsByTier(tier)
-        
-        if (tierSponsors.length === 0) return null
+        // This function should correctly get sponsors based on the tier string
+        const tierSponsors = getSponsorsByTier(tier);
+
+        if (!tierSponsors || tierSponsors.length === 0) return null;
 
         return (
           <motion.div
@@ -63,33 +69,20 @@ const SponsorsCarousel = () => {
             <h3 className={`text-xl font-semibold text-center ${color}`}>
               {title}
             </h3>
-            
+
             {tierSponsors.length > 4 ? (
-              // Use carousel for many sponsors
               <Swiper
                 modules={[Autoplay, Pagination, Navigation]}
                 spaceBetween={30}
                 slidesPerView={1}
-                autoplay={{
-                  delay: 3000,
-                  disableOnInteraction: false,
-                }}
-                pagination={{
-                  clickable: true,
-                  dynamicBullets: true,
-                }}
+                autoplay={{ delay: 3000, disableOnInteraction: false }}
+                pagination={{ clickable: true, dynamicBullets: true }}
                 navigation
                 loop
                 breakpoints={{
-                  640: {
-                    slidesPerView: 2,
-                  },
-                  768: {
-                    slidesPerView: 3,
-                  },
-                  1024: {
-                    slidesPerView: 4,
-                  },
+                  640: { slidesPerView: 2 },
+                  768: { slidesPerView: 3 },
+                  1024: { slidesPerView: 4 },
                 }}
                 className="w-full"
               >
@@ -100,7 +93,6 @@ const SponsorsCarousel = () => {
                 ))}
               </Swiper>
             ) : (
-              // Use grid for fewer sponsors
               <div className={`grid gap-6 ${
                 tierSponsors.length === 1 ? 'grid-cols-1 max-w-sm mx-auto' :
                 tierSponsors.length === 2 ? 'grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto' :
@@ -113,33 +105,17 @@ const SponsorsCarousel = () => {
               </div>
             )}
           </motion.div>
-        )
+        );
       })}
 
-      {/* Become a sponsor CTA */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.6 }}
-        className="text-center pt-8 border-t border-gray-800"
-      >
-        <h3 className="text-xl font-semibold text-white mb-4">
-          Interested in Sponsoring?
-        </h3>
-        <p className="text-gray-400 mb-6">
-          Partner with us to reach talented developers and support innovation
-        </p>
-        <a
-          href="mailto:sponsors@hackathon.com"
-          className="btn-outline inline-flex items-center"
-        >
-          <ExternalLink className="w-4 h-4 mr-2" />
-          Become a Sponsor
-        </a>
-      </motion.div>
+       {/* Removed the "Become a Sponsor" CTA based on your previous image comment */}
+       {/*
+       <motion.div ... >
+         ...
+       </motion.div>
+       */}
     </div>
-  )
-}
+  );
+};
 
-export default SponsorsCarousel
+export default SponsorsCarousel;

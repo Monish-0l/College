@@ -1,72 +1,54 @@
-import { useState, useEffect } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useAuth } from '../../contexts/AuthContext'
-import { Menu, X, Code, Users, Info, UserPlus, Calendar, LayoutDashboard } from 'lucide-react'
-
+import { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../../contexts/AuthContext';
+import { Menu, X, Code, Info, LayoutDashboard, Download } from 'lucide-react'; 
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const location = useLocation()
-  const navigate = useNavigate()
-  const { isAuthenticated, isAdmin } = useAuth()
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { isAuthenticated, isAdmin } = useAuth();
 
   // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-    }
+      setScrolled(window.scrollY > 50);
+    };
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Close mobile menu on route change
   useEffect(() => {
-    setIsOpen(false)
-  }, [location])
+    setIsOpen(false);
+  }, [location]);
 
+  // Updated navigation array
   const navigation = [
     { name: 'Home', href: '/', icon: Code },
     { name: 'Details', href: '/details', icon: Info },
-  ]
+  ];
 
   if (isAuthenticated && !isAdmin) {
-    navigation.push({ name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard })
-  } else if (!isAuthenticated) {
-    navigation.push({ name: 'Register', href: '/register', icon: UserPlus })
+    navigation.push({ name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard });
   }
 
-  const scrollToSection = (sectionId) => {
-    if (location.pathname !== '/') {
-      navigate('/')
-      // Wait for navigation to complete before scrolling
-      setTimeout(() => {
-        const element = document.getElementById(sectionId)
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' })
-        }
-      }, 100)
-    } else {
-      const element = document.getElementById(sectionId)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' })
-      }
-    }
-    setIsOpen(false)
-  }
+  // Removed scrollToSection as Schedule and Sponsors are removed
 
-  const isActive = (path) => location.pathname === path
+  const isActive = (path) => location.pathname === path;
 
   return (
     <>
       {/* Main Navigation */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-          ? 'glass-dark shadow-xl shadow-primary-500/10'
-          : 'bg-transparent'
-          }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? 'glass-dark shadow-xl shadow-primary-500/10'
+            : 'bg-transparent'
+        }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
@@ -80,7 +62,7 @@ const Navbar = () => {
               <Link
                 to="/"
                 className="flex items-center space-x-2 group"
-                onClick={() => scrollToSection('hero')}
+                // onClick={() => scrollToSection('hero')} // Removed onClick
               >
                 <div className="relative">
                   <Code className="h-8 w-8 text-primary-500 group-hover:text-primary-400 transition-colors" />
@@ -96,62 +78,52 @@ const Navbar = () => {
               </Link>
             </motion.div>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-4">
-                {navigation.map((item, index) => {
-                  const Icon = item.icon
-                  return (
-                    <motion.div
-                      key={item.name}
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                    >
-                      <Link
-                        to={item.href}
-                        className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 focus-visible group ${isActive(item.href)
+            {/* Desktop Navigation & Download Button */}
+            <div className="hidden md:flex items-center space-x-4">
+              {/* Navigation Links */}
+              {navigation.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <motion.div
+                    key={item.name}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                  >
+                    <Link
+                      to={item.href}
+                      className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 focus-visible group ${
+                        isActive(item.href)
                           ? 'text-primary-400 bg-primary-500/10'
                           : 'text-gray-300 hover:text-white hover:bg-white/10'
-                          }`}
-                      >
-                        <Icon className="inline-block w-4 h-4 mr-2" />
-                        {item.name}
-                        {isActive(item.href) && (
-                          <motion.div
-                            layoutId="activeTab"
-                            className="absolute inset-0 bg-primary-500/20 rounded-lg -z-10"
-                            initial={false}
-                          />
-                        )}
-                      </Link>
-                    </motion.div>
-                  )
-                })}
+                      }`}
+                    >
+                      <Icon className="inline-block w-4 h-4 mr-2" />
+                      {item.name}
+                      {isActive(item.href) && (
+                        <motion.div
+                          layoutId="activeTab"
+                          className="absolute inset-0 bg-primary-500/20 rounded-lg -z-10"
+                          initial={false}
+                        />
+                      )}
+                    </Link>
+                  </motion.div>
+                );
+              })}
 
-                {/* Quick Actions */}
-                <motion.button
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
-                  onClick={() => scrollToSection('schedule')}
-                  className="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-200 focus-visible"
-                >
-                  <Calendar className="inline-block w-4 h-4 mr-2" />
-                  Schedule
-                </motion.button>
-
-                <motion.button
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.5 }}
-                  onClick={() => scrollToSection('sponsors')}
-                  className="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-200 focus-visible"
-                >
-                  <Users className="inline-block w-4 h-4 mr-2" />
-                  Sponsors
-                </motion.button>
-              </div>
+              {/* Download PPT Template Button */}
+              <motion.a
+                href="/path/to/your/template.pptx" // *** Replace with the actual path to your PPT file ***
+                download="Hackathon_Template.pptx" // *** Optional: Specify the filename for the download ***
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: navigation.length * 0.1 }}
+                className="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-200 focus-visible flex items-center"
+              >
+                <Download className="inline-block w-4 h-4 mr-2" />
+                PPT Template
+              </motion.a>
             </div>
 
             {/* Mobile menu button */}
@@ -166,11 +138,7 @@ const Navbar = () => {
                 className="glass hover:bg-white/20 p-2 rounded-lg text-gray-300 hover:text-white focus-visible transition-all duration-200"
                 aria-label={isOpen ? 'Close menu' : 'Open menu'}
               >
-                {isOpen ? (
-                  <X className="h-6 w-6" />
-                ) : (
-                  <Menu className="h-6 w-6" />
-                )}
+                {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
             </motion.div>
           </div>
@@ -188,48 +156,34 @@ const Navbar = () => {
             >
               <div className="px-4 py-6 space-y-3">
                 {navigation.map((item) => {
-                  const Icon = item.icon
+                  const Icon = item.icon;
                   return (
                     <Link
                       key={item.name}
                       to={item.href}
-                      className={`flex items-center px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${isActive(item.href)
-                        ? 'text-primary-400 bg-primary-500/10'
-                        : 'text-gray-300 hover:text-white hover:bg-white/10'
-                        }`}
+                      className={`flex items-center px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
+                        isActive(item.href)
+                          ? 'text-primary-400 bg-primary-500/10'
+                          : 'text-gray-300 hover:text-white hover:bg-white/10'
+                      }`}
+                      onClick={() => setIsOpen(false)} // Close menu on link click
                     >
                       <Icon className="w-5 h-5 mr-3" />
                       {item.name}
                     </Link>
-                  )
+                  );
                 })}
 
-                {/* Mobile Quick Actions */}
-                <button
-                  onClick={() => scrollToSection('schedule')}
+                {/* Mobile Download PPT Template Link */}
+                 <a
+                  href="/path/to/your/template.pptx" // *** Replace with the actual path ***
+                  download="Hackathon_Template.pptx" // *** Optional: Specify filename ***
                   className="flex items-center w-full px-4 py-3 rounded-lg text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-200"
+                  onClick={() => setIsOpen(false)} // Close menu on link click
                 >
-                  <Calendar className="w-5 h-5 mr-3" />
-                  Schedule
-                </button>
-
-                <button
-                  onClick={() => scrollToSection('sponsors')}
-                  className="flex items-center w-full px-4 py-3 rounded-lg text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-200"
-                >
-                  <Users className="w-5 h-5 mr-3" />
-                  Sponsors
-                </button>
-
-                {/* CTA Button */}
-                <div className="pt-4 border-t border-gray-700/50">
-                  <Link
-                    to={isAuthenticated && !isAdmin ? '/dashboard' : '/register'}
-                    className="block w-full btn-primary text-center"
-                  >
-                    {isAuthenticated && !isAdmin ? 'Go to Dashboard' : 'Register Now'}
-                  </Link>
-                </div>
+                  <Download className="w-5 h-5 mr-3" />
+                  Download PPT Template
+                </a>
               </div>
             </motion.div>
           )}
@@ -239,7 +193,7 @@ const Navbar = () => {
       {/* Spacer to prevent content from going under fixed navbar */}
       <div className="h-16 lg:h-20" />
     </>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

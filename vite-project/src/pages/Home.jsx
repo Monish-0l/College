@@ -327,12 +327,7 @@ const Home = () => {
                     ? 'Register to Join'
                     : 'Registration Closed'}
               </Link>
-              <Link
-                to="/details"
-                className="bg-transparent border-2 border-white/30 hover:bg-white/10 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 backdrop-blur-sm"
-              >
-                Join Builder Chat
-              </Link>
+              
             </motion.div>
           </motion.div>
 
@@ -370,7 +365,7 @@ const Home = () => {
                   repeat: Infinity,
                 }}
               >
-                <div className="text-xs">$10M</div>
+                <div className="text-xs">50K</div>
                 <div className="text-xs">IN GLOBAL PRIZES</div>
               </motion.div>
 
