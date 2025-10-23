@@ -304,7 +304,7 @@ const Home = () => {
                 <div className="text-purple-200 text-sm">Slots Remaining</div>
               </div>
               <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 text-center border border-white/20">
-                <div className="text-2xl font-bold text-yellow-400">72</div>
+                <div className="text-2xl font-bold text-yellow-400">36</div>
                 <div className="text-purple-200 text-sm">Hours of Coding</div>
               </div>
             </motion.div>
